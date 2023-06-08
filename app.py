@@ -78,7 +78,7 @@ WITH
 season_result_df = sqldf(query, globals())
 
 
-bar_fig = px.bar(data_frame=season_result_df, x='Team', y='Points', title='Premier League 2015-16 total points')
+bar_fig = px.bar(data_frame=season_result_df, x='Team', y='Points', title='Premier League 2015-16 total Points')
 
 app = dash.Dash(__name__, update_title=None)
 app.layout = html.Div(
