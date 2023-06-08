@@ -65,8 +65,11 @@ season_result_df = sqldf(query, globals())
 
 bar_fig = px.bar(data_frame=season_result_df, x='Team', y='Points', title='Premier League 2015-16 total points')
 
-app = dash.Dash(update_title=None)
+app = dash.Dash(__name__, update_title=None)
+# Datacamp simply uses app = dash.Dash()
 # Notice how we use: app = dash.Dash(__name__, assets_folder=get_assets_folder(), update_title=None)
+
+
 # app.layout = dcc.Graph(id='example-graph', figure=bar_fig,)
 # We use this in our index.py file
 
@@ -83,8 +86,9 @@ app.layout = html.Div(
                 {"label": "Goal Difference", "value": "Goal Difference"},
                 {"label": "Points", "value": "Points"},
             ],
+            value="Points",  # Set a default value for the dropdown
         ),
-        dcc.Graph(id='example_graph', figure=bar_fig,)
+        dcc.Graph(id='example_graph', figure=bar_fig)
     ]
 )
 
@@ -94,14 +98,13 @@ app.layout = html.Div(
     Input(component_id="title_dd", component_property="value"),
 )
 def update_plot(selected_var):
-    fig_df = season_result_df.copy(deep=True)
-    if selected_var:
-        bar_fig = px.bar(
-            data_frame=fig_df,
-            title=f"'Premier League 2015-16 total points'",
-            x='Team',
-            y=f"{selected_var}",
-        )
+    fig_df = season_result_df.copy()
+    bar_fig = px.bar(
+        data_frame=fig_df,
+        title=f"Premier League 2015-16 {selected_var}",
+        x='Team',
+        y=selected_var,
+    )
     return bar_fig
 
 
